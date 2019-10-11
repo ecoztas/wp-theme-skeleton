@@ -1,26 +1,116 @@
 <?php
+/**
+ * *****************************************************************************
+ * @package 	Wordpress
+ * @subpackage 	wp-theme-skeleton
+ * @author		Emre Can ÖZTAŞ <me@emrecanoztas.com>
+ * @link 		https://emrecanoztas.com
+ * @license 	http://opensource.org/licenses/MIT  MIT License
+ * @version  	wp-theme-skeleton 1.0
+ * *****************************************************************************
+ */
 
-# ACTIONS
+// *****************************************************************************
+// VARIABLES
+// *****************************************************************************
+$theme_path 	= get_template_directory_uri();
+$footer_text 	= '';
 
-# FILTERS
+// *****************************************************************************
+// ACTIONS
+// *****************************************************************************
+add_action('after_setup_theme', 'install_wp_theme_options');
+add_action('wp_enqueue_scripts', 'add_theme_style_files');
+add_action('wp_enqueue_scripts', 'add_theme_script_files');
+add_action('widgets_init', 'create_theme_sidebars');
 
-# FUNCTIONS
-function add_theme_style_files()
-{
-	# code..
+// *****************************************************************************
+// FILTER
+// *****************************************************************************
+add_filter('the_generator', 'remove_wp_version');
+
+// *****************************************************************************
+// FUNCTIONS
+// *****************************************************************************
+if (!function_exists('install_wp_theme_options')) {
+	/**
+	 * Install all necessary options.
+	 * 
+	 * @return void
+	 */
+	function install_wp_theme_options()
+	{
+		load_theme_textdomain('THEME-DOMAIN-NAME');
+		add_editor_style();
+		add_theme_support('editor-styles');
+		add_theme_support('wp-block-styles');
+		add_theme_support('responsive-embeds');
+		add_theme_support('automatic-feed-links');
+		add_theme_support('post-formats', array('aside', 'image', 'link', 'quote', 'status'));
+		add_theme_support('post-thumbnails');
+		set_post_thumbnail_size(624, 9999);
+		add_theme_support('customize-selective-refresh-widgets');
+	}
 }
 
-function add_theme_script_files()
-{
-	# code...
+if (!function_exists('add_theme_style_files')) {
+	/**
+	 * Add all style files of theme.
+	 * $handle is simply the name of the stylesheet.
+	 * $src is where it is located. The rest of the parameters are optional.
+	 * $deps refers to whether or not this stylesheet is dependent on another stylesheet. If this is set, this stylesheet will not be loaded unless its dependent stylesheet is loaded first.
+	 * $ver sets the version number.
+	 * $media can specify which type of media to load this stylesheet in, such as ‘all’, ‘screen’, ‘print’ or ‘handheld.’
+	 * 
+	 * @return void
+	 */
+	function add_theme_style_files()
+	{
+		wp_enqueue_style($handle, $src, $deps, $ver, $media);
+	}
 }
 
-function create_theme_sidebars()
-{
-	# code...
+if (!function_exists('add_theme_script_files')) {
+	/**
+	 * Add all script files of theme.
+	 * $handle is the name for the script.
+	 * $src defines where the script is located.
+	 * $deps is an array that can handle any script that your new script depends on, such as jQuery.
+	 * $ver lets you list a version number.
+	 * $in_footer is a boolean parameter (true/false) that allows you to place your scripts in the footer of your HTML document rather then in the header, so that it does not delay the loading of the DOM tree.
+	 * 
+	 * @return void
+	 */
+	function add_theme_script_files()
+	{
+		wp_enqueue_script( $handle, $src, $deps, $ver, $in_footer);
+	}
 }
 
-function create_theme_logo()
-{
-	# code...
+if (!function_exists('create_theme_sidebars')) {
+	/**
+	 * Create sidebars for widgets.
+	 * @return void
+	 */
+	function create_theme_sidebars()
+	{
+		register_sidebar (
+			array (
+	            'name'          => __('SIDEBAR-NAME', 'THEMENAME'),
+	            'id'            => 'sidebar_name',
+	            'description'   => __('SIDEBAR-DESCRIPTION', 'THEMENAME'),
+	            'before_widget' => '<div class="col-md-4">',
+	            'after_widget'  => '</div>',
+	            'before_title'  => '<h5><b>',
+	            'after_title'   => '</b></h5>'
+			)
+		);
+	}
+}
+
+if (!function_exists('remove_wp_version')) {
+	function remove_wp_version()
+	{
+		return('');
+	}
 }
