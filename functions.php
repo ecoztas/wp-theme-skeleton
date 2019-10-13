@@ -6,7 +6,7 @@
  * @author		Emre Can ÖZTAŞ <me@emrecanoztas.com>
  * @link 		https://emrecanoztas.com
  * @license 	http://opensource.org/licenses/MIT  MIT License
- * @version  	wp-theme-skeleton 1.0
+ * @version  	1.0
  * *****************************************************************************
  */
 
@@ -28,6 +28,7 @@ add_action('widgets_init', 'create_theme_sidebars');
 // FILTER
 // *****************************************************************************
 add_filter('the_generator', 'remove_wp_version');
+add_filter('show_admin_bar', 'show_admin_panel');
 
 // *****************************************************************************
 // FUNCTIONS
@@ -83,34 +84,52 @@ if (!function_exists('add_theme_script_files')) {
 	 */
 	function add_theme_script_files()
 	{
-		wp_enqueue_script( $handle, $src, $deps, $ver, $in_footer);
+		wp_enqueue_script($handle, $src, $deps, $ver, $in_footer);
 	}
 }
 
 if (!function_exists('create_theme_sidebars')) {
 	/**
 	 * Create sidebars for widgets.
+	 *
 	 * @return void
 	 */
 	function create_theme_sidebars()
 	{
-		register_sidebar (
-			array (
-	            'name'          => __('SIDEBAR-NAME', 'THEMENAME'),
-	            'id'            => 'sidebar_name',
-	            'description'   => __('SIDEBAR-DESCRIPTION', 'THEMENAME'),
-	            'before_widget' => '<div class="col-md-4">',
-	            'after_widget'  => '</div>',
-	            'before_title'  => '<h5><b>',
-	            'after_title'   => '</b></h5>'
+		register_sidebar(
+			array(
+				'name'          => __('SIDEBAR-NAME', 'THEMENAME'),
+				'id'            => 'sidebar_name',
+				'description'   => __('SIDEBAR-DESCRIPTION', 'THEMENAME'),
+				'before_widget' => '<div class="col-md-4">',
+				'after_widget'  => '</div>',
+				'before_title'  => '<h5><b>',
+				'after_title'   => '</b></h5>'
 			)
 		);
 	}
 }
 
 if (!function_exists('remove_wp_version')) {
+	/**
+	 * Remove Wordpress version.
+	 *
+	 * @return void
+	 */
 	function remove_wp_version()
 	{
-		return('');
+		return ('');
+	}
+}
+
+if (!function_exists('show_admin_panel_logged_user')) {
+	/**
+	 * Show admin panel logged user.
+	 * 
+	 * @return void
+	 */
+	function show_admin_panel_logged_user()
+	{
+		return (!(current_user_can('manage_options')) ? false : true);
 	}
 }
