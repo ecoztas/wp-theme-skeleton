@@ -67,6 +67,7 @@ if (!function_exists('add_theme_style_files')) {
 	 */
 	function add_theme_style_files()
 	{
+		global $theme_path;
 		wp_enqueue_style($handle, $src, $deps, $ver, $media);
 	}
 }
@@ -84,6 +85,7 @@ if (!function_exists('add_theme_script_files')) {
 	 */
 	function add_theme_script_files()
 	{
+		global $theme_path;
 		wp_enqueue_script($handle, $src, $deps, $ver, $in_footer);
 	}
 }
