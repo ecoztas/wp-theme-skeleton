@@ -28,7 +28,7 @@ add_action('widgets_init', 'create_theme_sidebars');
 // FILTER
 // *****************************************************************************
 add_filter('the_generator', 'remove_wp_version');
-add_filter('show_admin_bar', 'show_admin_panel');
+add_filter('show_admin_bar', 'show_admin_panel_logged_user');
 
 // *****************************************************************************
 // FUNCTIONS
