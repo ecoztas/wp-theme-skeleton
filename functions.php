@@ -15,6 +15,7 @@
 // *****************************************************************************
 $theme_path 	= get_template_directory_uri();
 $footer_text 	= '';
+$post_length	= 20;
 
 // *****************************************************************************
 // ACTIONS
@@ -30,6 +31,7 @@ add_action('init', 'create_theme_menu');
 // *****************************************************************************
 add_filter('the_generator', 'remove_wp_version');
 add_filter('show_admin_bar', 'show_admin_panel_logged_user');
+add_filter( 'excerpt_length', 'set_post_excerpt');
 
 // *****************************************************************************
 // FUNCTIONS
@@ -153,5 +155,19 @@ if (!function_exists('create_theme_menu')) {
 	function create_theme_menu()
 	{
   		register_nav_menu('primary',__('Primary Menu'));
+	}
+}
+
+if (!function_exists('set_post_excerpt')) {
+	/**
+	 * Set post length.
+	 *
+	 * @return void
+	 */
+	 
+	function set_post_excerpt()
+	{
+		global $post_length;
+		return ($post_length);
 	}
 }
