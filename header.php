@@ -6,8 +6,15 @@
 
 <head>
 	<title>
-		<?php if (is_page()): echo(single_post_title() . ' - ' . get_bloginfo('name')) ?>
-		<?php else: echo(get_bloginfo('name') . ' - ' . get_bloginfo('description')); endif ?>
+		<?php 
+			if (is_page()) {
+				echo (single_post_title() . ' - ' . get_bloginfo('name'));
+			} elseif (is_single()) {
+				echo(single_post_title() . ' - ' . get_bloginfo('name'));
+			} else {
+				echo (get_bloginfo('name') . ' - ' . get_bloginfo('description'));
+			}
+		?>
 	</title>
 	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
